@@ -1,0 +1,201 @@
+add vault Tool-Management;
+
+add store Tool-Management
+type Captured
+path "C:\Capstone";
+
+add attribute "Tool Type" 
+type String
+range = Hardware
+range = Software;
+
+add attribute "Tool Release Date" 
+type Date;
+
+add attribute "Tool Support Expiry Date"
+type Date;
+
+add type Tool
+attribute "Tool Type","Tool Release Date","Tool Support Expiry Date";
+
+
+add person "Test ToolAdmin" fullname "Test ToolAdmin" comment "Person defined  for the Tool Admin" type application,full access  all;
+add person "Test ToolManager" fullname "Test ToolManager" comment "Person defined  for the Tool Manager" type application,full access  all;
+
+add role "Tool Admin" assign  person "Test ToolAdmin" parent Employee;
+add role "Tool Manager" assign person "Test ToolManager" parent Employee;
+
+add policy Tool
+minorsequence "A-Z"
+type Tool
+store Tool-Management
+format generic
+state Create
+        version true
+        minorrevision false
+        promote true
+        signature CreateToAnalysis approve "Tool Manager"
+        owner all
+        user "Tool Admin" read, modify, delete, checkout, checkin, create, revise, promote, changename,
+        changeowner, fromconnect, toconnect, fromdisconnect, todisconnect public read,show
+state Analysis
+        version true
+        minorrevision false
+        promote false
+        owner all
+        user "Tool Manager" read, modify, delete, checkout, checkin, create, revise, promote, changename,
+        changeowner, fromconnect, toconnect, fromdisconnect, todisconnect public read,show
+state Release
+        version true
+        minorrevision true
+        promote false
+        owner all
+        user "Tool Admin" read, modify, delete, checkout, checkin, create, revise, promote, changename,
+        changeowner, fromconnect, toconnect, fromdisconnect, todisconnect public read,show;
+        
+add relationship Tool-Applicability
+description "The definition of connection between Tool and Hardware Product bjects"
+preventduplicates
+from 
+    type Tool
+    cardinality n
+    revision replicate
+    clone none
+to 
+    type "Hardware Product"
+    cardinality n
+    revision replicate
+    clone none;
+
+
+add relationship Tool-Developed-By
+description "The definition of connection between Tool and Department Product bjects"
+preventduplicates
+from 
+    type Tool
+    cardinality n
+    revision replicate
+    clone none
+to 
+    type Department
+    cardinality 1
+    revision none
+    clone none;
+
+
+
+
+modify program eServiceSchemaVariableMapping.tcl
+add property vault_ToolManagement to vault Tool-Management;
+
+modify program eServiceSchemaVariableMapping.tcl
+add property store_ToolManagement to store Tool-Management;
+
+modify program eServiceSchemaVariableMapping.tcl
+add property person_ToolAdmin to person "Test ToolAdmin";
+
+modify program eServiceSchemaVariableMapping.tcl
+add property person_TestToolManager to person "Test ToolManager";
+
+modify program eServiceSchemaVariableMapping.tcl
+add property role_ToolAdmin to role "Tool Admin";
+
+modify program eServiceSchemaVariableMapping.tcl
+add property role_ToolManager to role "Tool Manager";
+
+modify program eServiceSchemaVariableMapping.tcl
+add property attribute_ToolType to attribute "Tool Type";
+
+modify program eServiceSchemaVariableMapping.tcl
+add property attribute_ToolReleaseDate to attribute "Tool Release Date";
+
+
+modify program eServiceSchemaVariableMapping.tcl
+add property attribute_ToolSupportExpiryDate to attribute "Tool Support Expiry Date";
+
+
+modify program eServiceSchemaVariableMapping.tcl add property type_Tool to type Tool;
+
+modify program eServiceSchemaVariableMapping.tcl add property policy_Tool to policy Tool;
+
+modify program eServiceSchemaVariableMapping.tcl
+add property relationship_ToolApplicability to relationship "Tool-Applicability";
+
+modify program eServiceSchemaVariableMapping.tcl
+add property relationship_ToolDevelopedBy to relationship "Tool-Developed-By";
+
+ 
+trigger off;
+
+add bus "Hardware Product" HP-0031 A
+policy Product
+vault Tool-Management;
+
+add bus "Hardware Product" HP-0032 A
+policy Product
+vault Tool-Management;
+
+add bus "Hardware Product" HP-0033 A
+policy Product
+vault Tool-Management;
+
+add bus "Hardware Product" HP-0034 A
+policy Product
+vault Tool-Management;
+
+promote bus "Hardware Product" HP-0031 A;
+promote bus "Hardware Product" HP-0031 A;
+promote bus "Hardware Product" HP-0031 A;
+promote bus "Hardware Product" HP-0031 A;
+
+promote bus "Hardware Product" HP-0032 A;
+promote bus "Hardware Product" HP-0032 A;
+promote bus "Hardware Product" HP-0032 A;
+promote bus "Hardware Product" HP-0032 A;
+
+promote bus "Hardware Product" HP-0033 A;
+promote bus "Hardware Product" HP-0033 A;
+promote bus "Hardware Product" HP-0033 A;
+promote bus "Hardware Product" HP-0033 A;
+
+promote bus "Hardware Product" HP-0034 A;
+promote bus "Hardware Product" HP-0034 A;
+promote bus "Hardware Product" HP-0034 A;
+promote bus "Hardware Product" HP-0034 A;
+
+
+add bus Department Manufacturing -
+policy Organization
+vault Tool-Management;
+
+
+add bus Department Design -
+policy Organization
+vault Tool-Management;
+
+add bus Department Assembly -
+policy Organization
+vault Tool-Management;
+
+promote bus Department Manufacturing -;
+promote bus Department Design -;
+promote bus Department Assembly -;
+
+add bus Tool t-001 A
+policy Tool
+vault Tool-Management;
+
+add bus Tool t-002 A
+policy Tool
+vault Tool-Management;
+
+add connection Tool-Applicability
+to "Hardware Product" HP-0031 A
+from Tool t-001 A;
+
+add connection Tool-Developed-By
+to Department Manufacturing -
+from Tool t-002 A;
+
+add program Tool description "The program containing business logic for the Tool object"
+java execute immediate file "C:\Tool.java";
