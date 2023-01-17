@@ -77,11 +77,20 @@ public  class Tool_mxJPO
 		return 0;
 		
 	}
-	/*
+	
 	public int actionAnalysis(Context context,  String[] args) throws Exception
 	{
-		
+		String objectId = args[0];
+		DomainObject doObj = DomainObject.newInstance(context, objectId);
+		LocalDate today = LocalDate.now();
+		String formattedDate = today.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+		System.out.println("Tool Release Date : " + formattedDate);
+		doObj.setAttributeValue(context, "“Tool Release Date", formattedDate);
+		LocalDate yearLater = today.plusYears (1);
+		String formattedyearLater = yearLater.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+		System.out.println("Tool Support Expiry Date : " + formattedyearLater);
+		doObj.setAttributeValue(context, "Tool Support Expiry Date", formattedyearLater);
 		return 0;
 	}
-*/
+
 }
