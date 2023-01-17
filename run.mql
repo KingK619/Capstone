@@ -214,3 +214,15 @@ modify policy Tool state Create add trigger promote check emxTriggerManager inpu
 add bus "eService Trigger Program Parameters" PolicyToolStateAnalysisPromoteCheck checkAnalysis vault "eService Administration" policy "eService Trigger Program Policy" "eService Program Name" Tool "eService Method Name" checkAnalysis "eService Sequence Number" 1 "eService Program Argument 1" ${OBJECTID} current "Active";
 
 modify policy Tool state Analysis add trigger promote check emxTriggerManager input PolicyToolStateAnalysisPromoteCheck;
+
+
+
+add bus "eService Trigger Program Parameters" PolicyToolStateAnalysisPromoteAction actionAnalysis vault "eService Administration" policy "eService Trigger Program Policy" "eService Program Name" Tool "eService Method Name" actionAnalysis "eService Sequence Number" 1 "eService Program Argument 1" ${OBJECTID} current "Active";
+
+modify policy Tool state Analysis add trigger promote action emxTriggerManager input PolicyToolStateAnalysisPromoteAction;
+
+add connection Tool-Applicability
+to "Hardware Product" HP-0032 A 
+from Tool t-002 A;
+
+promote bus Tool t-002 A;
