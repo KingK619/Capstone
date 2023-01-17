@@ -53,6 +53,11 @@ state Release
         user "Tool Admin" read, modify, delete, checkout, checkin, create, revise, promote, changename,
         changeowner, fromconnect, toconnect, fromdisconnect, todisconnect public read,show;
         
+mod policy Tool
+state Create 
+    user "Tool Manager" read, modify, delete, checkout, checkin, create, revise, promote, changename,
+        changeowner, fromconnect, toconnect, fromdisconnect, todisconnect public read,show;
+        
 add relationship Tool-Applicability
 description "The definition of connection between Tool and Hardware Product bjects"
 preventduplicates
@@ -199,3 +204,13 @@ from Tool t-002 A;
 
 add program Tool description "The program containing business logic for the Tool object"
 java execute immediate file "C:\Tool.java";
+
+add bus "eService Trigger Program Parameters" PolicyToolStateCreatePromoteCheck checkCreate vault "eService Administration" policy "eService Trigger Program Policy" "eService Program Name" Tool "eService Method Name" checkCreate "eService Sequence Number" 1 "eService Program Argument 1" ${OBJECTID} current "Active";
+
+modify policy Tool state Create add trigger promote check emxTriggerManager input PolicyToolStateCreatePromoteCheck;
+
+
+
+add bus "eService Trigger Program Parameters" PolicyToolStateAnalysisPromoteCheck checkAnalysis vault "eService Administration" policy "eService Trigger Program Policy" "eService Program Name" Tool "eService Method Name" checkAnalysis "eService Sequence Number" 1 "eService Program Argument 1" ${OBJECTID} current "Active";
+
+modify policy Tool state Analysis add trigger promote check emxTriggerManager input PolicyToolStateAnalysisPromoteCheck;
