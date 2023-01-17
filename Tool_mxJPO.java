@@ -37,9 +37,7 @@ public  class Tool_mxJPO
 		DomainObject doTool = DomainObject.newInstance(context, sToolId);
 		//Querying to find connected Department objects (similar to expand bus query)
 		MapList mDepartment = doTool.getRelatedObjects(context, sToolDevelopedBy, sDepartmentTypeActualName,slObjSelect, slRelSelect,false,true,(short)1,"","");
-		System.out.println("Department == "+mDepartment); //For debugging purpose
 		Map mpTool = doTool.getInfo(context, slToolSelect);
-		System.out.println("Tool type == "+ mpTool.get(sToolTypeSelect));
 		if ((sToolId != null) && (!sToolId.isEmpty())){
 			if ((mDepartment == null) || (mDepartment.isEmpty()) || (mpTool.get(sToolTypeSelect) == null) )
 			{
@@ -68,7 +66,7 @@ public  class Tool_mxJPO
 		DomainObject doTool = DomainObject.newInstance(context, sToolId);
 		//Querying to find connected Department objects (similar to expand bus query)
 		MapList mHardware = doTool.getRelatedObjects(context, sToolApplicability, sHardwareTypeActualName,slObjSelect, slRelSelect,false,true,(short)1,"","");
-		System.out.println("Department == "+mHardware); //For debugging purpose
+
 
 		if ((sToolId != null) && (!sToolId.isEmpty())){
 			if ((mHardware == null) || (mHardware.isEmpty())  )
@@ -83,17 +81,19 @@ public  class Tool_mxJPO
 	
 	public int actionAnalysis(Context context,  String[] args) throws Exception
 	{
-		String objectId = args[0];
-		DomainObject doObj = DomainObject.newInstance(context, objectId);
-		LocalDate today = LocalDate.now();
-		String formattedDate = today.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-		System.out.println("Tool Release Date : " + formattedDate);
-		doObj.setAttributeValue(context, "“Tool Release Date", formattedDate);
-		LocalDate yearLater = today.plusYears (1);
-		String formattedyearLater = yearLater.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-		System.out.println("Tool Support Expiry Date : " + formattedyearLater);
-		doObj.setAttributeValue(context, "Tool Support Expiry Date", formattedyearLater);
-		return 0;
+			String objectId = args[0];
+			DomainObject doObj = DomainObject.newInstance(context, objectId);
+			LocalDate today = LocalDate.now();
+			String formattedDate = today.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+			System.out.println("Tool Release Date : " + formattedDate);
+			doObj.setAttributeValue(context, "Tool Release Date", formattedDate);
+			LocalDate yearLater = today.plusYears (1);
+			String formattedyearLater = yearLater.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+			System.out.println("Tool Support Expiry Date : " + formattedyearLater);
+			doObj.setAttributeValue(context, "Tool Support Expiry Date", formattedyearLater);
+			return 0;
 	}
+
+
 
 }
