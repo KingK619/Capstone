@@ -1,8 +1,10 @@
-add vault Tool-Management;
+add vault Tool-Management
+description "Vault to store the meta data for the Tool Management Association functionality";
 
 add store Tool-Management
 type Captured
-path "C:\Capstone";
+path "C:\Capstone"
+description "To store the files for the Tool Management Association functionality";
 
 add attribute "Tool Type" 
 type String
@@ -10,13 +12,16 @@ range = Hardware
 range = Software;
 
 add attribute "Tool Release Date" 
-type Date;
+type Date
+description "To store the Tool Release Date";
 
 add attribute "Tool Support Expiry Date"
-type Date;
+type Date
+description "To store the Tool Expiry Date";
 
 add type Tool
-attribute "Tool Type","Tool Release Date","Tool Support Expiry Date";
+attribute "Tool Type","Tool Release Date","Tool Support Expiry Date"
+description "The definition representing Tool object";
 
 
 add person "Test ToolAdmin" fullname "Test ToolAdmin" comment "Person defined  for the Tool Admin" type application,full access  all;
@@ -26,6 +31,7 @@ add role "Tool Admin" assign  person "Test ToolAdmin" parent Employee;
 add role "Tool Manager" assign person "Test ToolManager" parent Employee;
 
 add policy Tool
+description "The policy definition for Tool objects"
 minorsequence "A-Z"
 type Tool
 store Tool-Management
@@ -58,8 +64,9 @@ state Create
     user "Tool Manager" read, modify, delete, checkout, checkin, create, revise, promote, changename,
         changeowner, fromconnect, toconnect, fromdisconnect, todisconnect public read,show;
         
+        
 add relationship Tool-Applicability
-description "The definition of connection between Tool and Hardware Product bjects"
+description "The definition of connection between Tool and Hardware Product objects"
 preventduplicates
 from 
     type Tool
