@@ -180,7 +180,6 @@ add bus Department Manufacturing -
 policy Organization
 vault Tool-Management;
 
-
 add bus Department Design -
 policy Organization
 vault Tool-Management;
@@ -192,6 +191,28 @@ vault Tool-Management;
 promote bus Department Manufacturing -;
 promote bus Department Design -;
 promote bus Department Assembly -;
+
+
+add program Tool description "The program containing business logic for the Tool object" 
+java execute immediate file "C:\Tool.java";
+
+
+add bus "eService Trigger Program Parameters" PolicyToolStateCreatePromoteCheck checkCreate vault "eService Administration" policy "eService Trigger Program Policy" "eService Program Name" Tool "eService Method Name" checkCreate "eService Sequence Number" 1 "eService Program Argument 1" ${OBJECTID} current "Active";
+
+modify policy Tool state Create add trigger promote check emxTriggerManager input PolicyToolStateCreatePromoteCheck;
+
+
+
+add bus "eService Trigger Program Parameters" PolicyToolStateAnalysisPromoteCheck checkAnalysis vault "eService Administration" policy "eService Trigger Program Policy" "eService Program Name" Tool "eService Method Name" checkAnalysis "eService Sequence Number" 1 "eService Program Argument 1" ${OBJECTID} current "Active";
+
+modify policy Tool state Analysis add trigger promote check emxTriggerManager input PolicyToolStateAnalysisPromoteCheck;
+
+
+
+add bus "eService Trigger Program Parameters" PolicyToolStateAnalysisPromoteAction actionAnalysis vault "eService Administration" policy "eService Trigger Program Policy" "eService Program Name" Tool "eService Method Name" actionAnalysis "eService Sequence Number" 1 "eService Program Argument 1" ${OBJECTID} current "Active";
+
+modify policy Tool state Analysis add trigger promote action emxTriggerManager input PolicyToolStateAnalysisPromoteAction;
+
 
 add bus Tool t-001 A
 policy Tool
@@ -209,24 +230,13 @@ add connection Tool-Developed-By
 to Department Manufacturing -
 from Tool t-002 A;
 
-add program Tool description "The program containing business logic for the Tool object"
-java execute immediate file "C:\Tool.java";
 
-add bus "eService Trigger Program Parameters" PolicyToolStateCreatePromoteCheck checkCreate vault "eService Administration" policy "eService Trigger Program Policy" "eService Program Name" Tool "eService Method Name" checkCreate "eService Sequence Number" 1 "eService Program Argument 1" ${OBJECTID} current "Active";
-
-modify policy Tool state Create add trigger promote check emxTriggerManager input PolicyToolStateCreatePromoteCheck;
+promote bus Tool t-001 A;    
+approve bus Tool t-001 A signature CreateToAnalysis;
 
 
-
-add bus "eService Trigger Program Parameters" PolicyToolStateAnalysisPromoteCheck checkAnalysis vault "eService Administration" policy "eService Trigger Program Policy" "eService Program Name" Tool "eService Method Name" checkAnalysis "eService Sequence Number" 1 "eService Program Argument 1" ${OBJECTID} current "Active";
-
-modify policy Tool state Analysis add trigger promote check emxTriggerManager input PolicyToolStateAnalysisPromoteCheck;
-
-
-
-add bus "eService Trigger Program Parameters" PolicyToolStateAnalysisPromoteAction actionAnalysis vault "eService Administration" policy "eService Trigger Program Policy" "eService Program Name" Tool "eService Method Name" actionAnalysis "eService Sequence Number" 1 "eService Program Argument 1" ${OBJECTID} current "Active";
-
-modify policy Tool state Analysis add trigger promote action emxTriggerManager input PolicyToolStateAnalysisPromoteAction;
+approve bus Tool t-002 A signature CreateToAnalysis;  
+promote bus Tool t-002 A;
 
 add connection Tool-Applicability
 to "Hardware Product" HP-0032 A 
