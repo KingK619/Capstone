@@ -17,7 +17,7 @@ public  class Tool_mxJPO
 	{ }
 	//mxMainMethod Similar to Main method of Java
 	public int mxMain(Context context, String[] args) throws Exception  {System.out.println("Hello  World from Main Method");return 0;}
-	//Another method to test the invocation
+	//method for check trigger on Create state and Promote Event
 	public int checkCreate(Context context,  String[] args) throws Exception
 	{
 		String sToolId = args[0];
@@ -50,7 +50,7 @@ public  class Tool_mxJPO
 		
 		
 	}
-	
+	//method for check trigger on Analysis state and Promote Event
 	public int checkAnalysis(Context context,  String[] args) throws Exception
 	{
 		
@@ -64,7 +64,7 @@ public  class Tool_mxJPO
 		
 		
 		DomainObject doTool = DomainObject.newInstance(context, sToolId);
-		//Querying to find connected Department objects (similar to expand bus query)
+		//Querying to find connected Hardware Product objects (similar to expand bus query)
 		MapList mHardware = doTool.getRelatedObjects(context, sToolApplicability, sHardwareTypeActualName,slObjSelect, slRelSelect,false,true,(short)1,"","");
 
 
@@ -78,7 +78,7 @@ public  class Tool_mxJPO
 		return 0;
 		
 	}
-	
+	//method for action trigger on Analysis state and Promote Event
 	public int actionAnalysis(Context context,  String[] args) throws Exception
 	{
 			String objectId = args[0];
