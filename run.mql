@@ -2,7 +2,7 @@ add vault Tool-Management
 description "Vault to store the meta data for the Tool Management Association functionality";
 
 add store Tool-Management
-type Captured
+type Captured 
 path "C:\Capstone"
 description "To store the files for the Tool Management Association functionality";
 
@@ -194,8 +194,7 @@ promote bus Department Assembly -;
 
 
 add program Tool description "The program containing business logic for the Tool object" 
-java execute immediate file "C:\Tool.java";
-
+java execute immediate file "C:\Capstone\Tool.java";
 
 add bus "eService Trigger Program Parameters" PolicyToolStateCreatePromoteCheck checkCreate vault "eService Administration" policy "eService Trigger Program Policy" "eService Program Name" Tool "eService Method Name" checkCreate "eService Sequence Number" 1 "eService Program Argument 1" ${OBJECTID} current "Active";
 
